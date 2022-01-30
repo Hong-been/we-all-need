@@ -1,31 +1,35 @@
 import type { NextPage } from "next";
 import styled from "styled-components";
 import React, { useState, useEffect, useMemo, useCallback } from "react";
-// useEffect: Similar to componentDidMount and componentDidUpdate
+import { ColorButton } from "components/ColorButton/index";
 
-const PracticeButton = styled.button<{ isSelected: boolean }>`
-	border: ${(props) => (props.isSelected ? "2px solid blue" : "")};
-`;
+export type Color = "red" | "blue" | "green";
+const COLORS: Color[] = ["blue", "green", "red"];
 
 const Practice: NextPage = () => {
 	const [selectedColor, setSelectedColor] = useState("");
 	const [changedCount, setChangedCount] = useState(-1);
 
-	const onClick = useCallback((e: Event) => {
-		e.preventDefault();
+	const onClick = useCallback((color: Color) => {
+		switch (color) {
+			case "red":
+				console.log("apple");
+				break;
+			case "green":
+				console.log("green tea");
+				break;
+			case "blue":
+				console.log("ocean");
+				break;
+		}
 
-		const newColor = e.target.value;
-		console.log(`${newColor} button clicked`);
-
-		setSelectedColor(newColor);
+		setSelectedColor(color);
 	}, []);
 
 	useEffect(() => {
 		setChangedCount(changedCount + 1);
 	}, [selectedColor]);
 
-	// useMemo? useCallbak?
-	// useCallback도 주어진 인자가 변경될때 실행되는 것 아닌가? 뭐가다르지
 	const setSelectedColorLen = useMemo(
 		() => selectedColor.length,
 		[selectedColor.length]
@@ -36,27 +40,14 @@ const Practice: NextPage = () => {
 			<div>My favorite color is {selectedColor}</div>
 			<div>Change Count: {changedCount}</div>
 			<div>Length of color: {setSelectedColorLen}</div>
-			<PracticeButton
-				value="blue"
-				onClick={onClick}
-				isSelected={selectedColor === "blue"}
-			>
-				blue
-			</PracticeButton>
-			<PracticeButton
-				value="red"
-				onClick={onClick}
-				isSelected={selectedColor === "red"}
-			>
-				red
-			</PracticeButton>
-			<PracticeButton
-				value="green"
-				onClick={onClick}
-				isSelected={selectedColor === "green"}
-			>
-				green
-			</PracticeButton>
+			{COLORS.map((color) => (
+				<ColorButton
+					key={`color-button-${color}`}
+					color={color}
+					onClickCallback={onClick}
+					isSelected={selectedColor === color}
+				/>
+			))}
 		</div>
 	);
 };
