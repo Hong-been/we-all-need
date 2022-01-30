@@ -11,7 +11,6 @@ const TestContainer = styled.div`
 `;
 
 const Test: NextPage = () => {
-	//TypeError: Cannot read properties of undefined (reading 'count')
 	const count = useSelector((state: RootState) => state.test.count);
 	const dispatch = useDispatch();
 

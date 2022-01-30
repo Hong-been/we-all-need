@@ -13,7 +13,7 @@ const initialState = {
 	count: 0,
 };
 
-export const placeReducer = handleActions<State, any>(
+export const testReducer = handleActions<State, any>(
 	{
 		[actions.REPLACE]: (previousState, action: actions.REPLACE__Instance) => {
 			return produce(previousState, (newState) => {
